@@ -1,0 +1,46 @@
+{
+  "name": "dismon",
+  "version": "1.0.0-beta",
+  "description": "Dismon.",
+  "main": "dismon.js",
+  "scripts": {
+    "start": "node .",
+    "test": "eslint .",
+    "lint": "eslint --fix .",
+    "prod": "SET NODE_ENV=production&&npm start",
+    "dev": "SET NODE_ENV=development&&nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lockyz/Dismon"
+  },
+  "keywords": [
+    "template",
+    "discord.js",
+    "discord",
+    "bot"
+  ],
+  "author": "Lockyz <lockyz@lockyzgroup.net>",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/lockyz/Dismon/issues"
+  },
+  "homepage": "https://github.com/lockyz/Dismon/#README.md",
+  "dependencies": {
+    "better-sqlite3": "^7.1.1",
+    "common-tags": "^1.8.0",
+    "discord.js": "^12.5.1",
+    "dotenv-flow": "^0.1.0",
+    "enmap": "^4.3.2",
+    "moment": "^2.29.1",
+    "moment-duration-format": "^2.2.2",
+    "moment-timezone": "^0.5.32",
+    "mysql": "^2.18.1",
+    "node-fetch": "^2.6.1",
+    "pokedex-promise-v2": "^3.3.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.6.1"
+  }
+}
