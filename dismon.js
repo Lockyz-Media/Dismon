@@ -1,50 +1,53 @@
-if (Number(process.version.slice(1).split(".")[0]) < 8) throw new Error("Node 8.0.0 or higher is required. Update Node on your system.");
-
-const { Client, MessageEmbed } = require('discord.js');
-const { promisify } = require('util');
-const readdir = promisify(require('fs').readdir);
-const Enmap = require('enmap');
-const config = require('./config.js')
-require('dotenv-flow').config();
+const { Client, Collection, Intents, MessageEmbed } = require('discord.js');
+const fs = require('fs');
+const { token } = require('./config.json');
 
 const client = new Client({
-	disableEveryone:  true,
-	messageCacheMaxSize: 500,
-	messageCacheLifetime: 120,
-	messageSweepInterval: 60
-});
+	intents: [
+        Intents.FLAGS.GUILDS,
+		Intents.FLAGS.GUILD_MEMBERS,
+		Intents.FLAGS.GUILD_BANS,
+		Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
+		Intents.FLAGS.GUILD_INTEGRATIONS,
+		Intents.FLAGS.GUILD_WEBHOOKS,
+		Intents.FLAGS.GUILD_INVITES,
+		Intents.FLAGS.GUILD_PRESENCES,
+		Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+		Intents.FLAGS.DIRECT_MESSAGES
+    ]
+})
+// We now have a giveawaysManager property to access the manager everywhere!
+client.giveawaysManager = manager;
+console.log('==============================')
+console.log('=                            =')
+console.log('= Dismon Startup Procedures. =')
+console.log('=                            =')
+console.log('==============================')
+console.log('Loading Bot Base...')
+console.log('🟢 Bot Base Online')
 
-client.commands = new Enmap();
-client.aliases = new Enmap();
-client.categories = new Enmap();
-client.categories.fun = new Enmap();
-client.categories.info = new Enmap();
-client.categories.settings = new Enmap();
+client.commands = new Collection();
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-client.commands = new Enmap();
-client.aliases = new Enmap();
+for (const file of commandFiles) {
+	console.log('Loading Slash Command Collection...')
+	const command = require('./commands/'+file);
+	// Set a new item in the Collection
+	// With the key as the command name and the value as the exported module
+	client.commands.set(command.data.name, command);
+}
+console.log('🟢 Found all Slash Commands. Bot Slash Command System Online...')
 
-client.logger = require('./utils/logger');
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
-require('./utils/functions')(client);
-
-const init = async () => {
-
-	const cmdFiles = await readdir('./commands/');
-	cmdFiles.forEach(f => {
-		if (!f.endsWith('.js')) return;
-		const response = client.loadCommand(f);
-		if (response) client.logger.log(response);
-	});
-
-	const evtFiles = await readdir('./events/');
-	evtFiles.forEach(f => {
-		const evtName = f.split('.')[0];
-		const event = require(`./events/${f}`);
-		client.on(evtName, event.bind(null, client));
-	});
-
-	client.login(config.token);
-};
-
-init();
+for (const file of eventFiles) {
+	
+	const event = require('./events/'+file);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
+	}
+}
+client.login(token);

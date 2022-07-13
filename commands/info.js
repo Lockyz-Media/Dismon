@@ -1,30 +1,19 @@
-const { MessageEmbed } = require('discord.js');
-const { embedColor, prefix, base, dev, commby, bName, supportS, description } = require('../info.js');
-const { noBotPerms } = require('../utils/errors');
-const Discord = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const { MessageEmbed, Permissions } = require('discord.js')
 
-exports.run = async (client, message, args) => {
-
-    let perms = message.guild.me.permissions;
-    if (!perms.has('EMBED_LINKS')) return noBotPerms(message, 'EMBED_LINKS');
-    const infoEmbed = new MessageEmbed()
-        .setTitle(bName)
-        .setDescription(`If you need help do ${prefix}help\n`+description)
-        .setColor(embedColor)
-        .addField('Support', supportS)
-        .addField('Base Version', base)
-        .addField('Developer', dev)
-        .setFooter('©2020 Lockyz Development');
-
-    message.channel.send(infoEmbed);
-};
-
-exports.help = {
-    name: 'info',
-    aliases: ['botinfo'],
-    description: 'View bot information.',
-    usage: 'info',
-    premium: 'false',
-    metrics: 'true',
-    category: 'info'
+module.exports = {
+	data: new SlashCommandBuilder()
+		.setName('info')
+		.setDescription('Get advanced information about the bot.'),
+	async execute(interaction) {
+        const client = interaction.client
+        var d = new Date();
+        var n = d.getFullYear();
+        const embed = new MessageEmbed()
+            .setTitle("Dismon")
+            .setDescription("**Dismon** is a Pokemon Information Discord Bot.")
+            .addField("Developer", 'Robin Painter')
+            .setFooter("©2018-"+n+" Lockyz Dev");
+        interaction.reply({ embeds: [embed] })
+	}
 };
