@@ -2,7 +2,7 @@
   "dependencies": {
     "@discordjs/builders": "^0.15.0",
     "@discordjs/rest": "^0.1.0-canary.0",
-    "better-sqlite3": "^7.5.1",
+    "better-sqlite3": "^7.6.2",
     "discord-anti-spam": "^2.5.8",
     "discord-giveaways": "^5.0.1",
     "discord.js": "^13.8.0",
