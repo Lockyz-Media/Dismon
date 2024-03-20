@@ -6,7 +6,7 @@
     "discord-anti-spam": "^2.5.8",
     "discord-giveaways": "^5.0.1",
     "discord.js": "^13.8.0",
-    "humanize-duration": "^3.27.1",
+    "humanize-duration": "^3.31.0",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "ms": "^2.1.3",
