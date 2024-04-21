@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@discordjs/builders": "^0.15.0",
+    "@discordjs/builders": "^0.16.0",
     "@discordjs/rest": "^0.1.0-canary.0",
     "better-sqlite3": "^7.5.1",
     "discord-anti-spam": "^2.5.8",
